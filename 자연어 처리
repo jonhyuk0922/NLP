@@ -1,0 +1,81 @@
+<h1> 1강 자연어처리 </h1>
+
+2. 자연어란?  
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e7acd940-6984-4dd1-ac74-f6637bdd37e9/_2021-06-29__10.27.10.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e7acd940-6984-4dd1-ac74-f6637bdd37e9/_2021-06-29__10.27.10.png)
+
+- 자연언어 : 한국어 ,영어 , 일본어 vs 인공언어: 프로그래밍언어
+- 자연어 처리란, 수신자가 컴퓨터가 되고 , 인코딩 된 인간의 말을 디코딩하는 것을 자연어 처리라고 한다.
+
+3. 다양한 자연어 처리 기술
+
+- 규칙/지식 기반 접근법
+
+eg) "오늘 날씨 어때?" 라고 스피커에 물어봤을 때, Now weather what 이렇게 규칙을 정해서 답변해주는 것. 현업에서 많이 쓰임
+
+- 확률/통계 기반 접근법
+
+eg) TF-IDF : 많은 문서 중 필요없는 키워드(DF가 낮은)는 거르고, 의미있는 걸(TF가 높은) 남기자.
+
+4. 자연어 처리의 단계
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/009f3086-dd7d-4b3e-81b7-bfb19f59777e/_2021-06-29__10.34.24.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/009f3086-dd7d-4b3e-81b7-bfb19f59777e/_2021-06-29__10.34.24.png)
+
+- 전처리
+
+블로그 데이터 수집했을 때, 데이터가 아슈크림, 고구뇽스틱 이렇게 되어있으면 학습이 안된다. 이런 검사 과정도 오래 걸리기에 학습 데이터가 많다고 능사가 아니다.
+
+- 토크나이징
+
+한글은 형태소 단위가 의미의 최소 단어다. 
+
+자소 단위로 바꿔서 넣는 연구도 진행 중이다.
+
+5. 다양한 자연어 처리 Applications
+
+- 문서 분류 : 한전에서 실제로 문서 분류에 대해 부탁함
+- 정보 추출 : 위키피디아의 많은 문서를 사람이 수작업하긴 어렵기에..
+- 이외 다양한 경우가 있지만, 그 중 아래와 같은 어플을 만들 기위해선 9개의 NLP 과정이 필요하다.
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5d5d5f3e-56c9-42f9-9b8b-593c48f6bee4/_2021-06-29__10.40.55.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5d5d5f3e-56c9-42f9-9b8b-593c48f6bee4/_2021-06-29__10.40.55.png)
+
+자연어 처리의 핵심은! 어떻게 분류할 수 있느냐다.
+
+6. 자연어에서의 특징 추출과 분류
+
+- '분류'를 위해선 데이터를 수학적으로 표현해야 한다.
+
+eg) 동물들을 보고 사람은 다리의 수, 몸 크기와 같은 특징을 파악하고 분류한다.
+
+- 자연어에서 특징을 추출하고 분류할 수 있는 방법은?
+
+원핫인코딩 : n개 단어를 n차원 벡터로 표현해준다. 하지만 용량이 무한대로 커지고, 단어 벡터가 sparse해서 단어의 의미를 표현할 수 없다.
+
+그래서! Word2Vec 알고리즘이 나왔다.
+
+7. Word embedding - Word2Vec
+
+- 단어의 주변 단어들을 통해 의미 유추하는 알고리즘
+- 단어들을 벡터로 나열하게되면, 벡터 연산이 가능해진다.
+- Word embedding 성능 검증 방법 두 가지
+    - 첫번째, 유사도 비교 : 13-16명의 사람이 직접 annotate한 두 단어의 유사도와 두 단어 벡터의 코사인 유사도를 비교한 값(Spearman's rank-order correlation)이 0.7 이상이면 잘 된 것
+    - 두번째, analogy(유추) test : 벡터간 연산을 통해 유추
+
+    semtatic 도 0.7 정도 ? 그러나 한국어 특성상 syntatic은 잘 안나옴
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd22499b-10d6-4761-844f-fbc58bad690e/_2021-06-29__11.15.33.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cd22499b-10d6-4761-844f-fbc58bad690e/_2021-06-29__11.15.33.png)
+
+8. Word embedding - FastText
+
+- word2vec과 동일하나, subword에 대해서도 포함시키기 위해 트레이닝 시 n-gram으로 쪼개서 input값을 준다. 즉, input 으로 assumption이 주어졌다면 n=2~5로 잡고 n-gram으로 쪼갠 (as, su, mp .... ption, assumption) 전체가 input으로 주어진다.
+- 즉 , OOV가 들어오더라도 n-gram을 통해 유추할 수 있다.
+
+eg) orange를 n-gram으로 쪼개서 학습하면, OOV인 oranges도 인식 가능하고 오타가 난 oranze에 대해서도 인식할 수 있다.  
+
+Q. 한국어에선 어떻게 n-gram을 쪼개나? 기본적으론 음절 단위로 나눈다. 대한민국을 n:2~4로 나눈다면 대한 한민 민국 이런식으로 나눈다. 한 음절엔 최대 6개의 자소 포함 가능하다. 그래서 자소 단위로 나누면 n:6~12로 설정할 수 있고 이렇게 하면 오타에 대해 강하다.
+
+9. Word embedding의 활용
+
+- 다른 자연어 처리 모델의 입력으로 사용 (가장 밑단에 사용)
+
+(eg 데이터 양이 부족한 경우 , 학습 데이터만으로는 특성 추출 불가능하므로 워드 임베딩한 걸 입력으로 넣으면 문서의 피처들을 워드임베딩에 맡긴다? ..)
